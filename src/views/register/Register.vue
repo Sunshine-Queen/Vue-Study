@@ -129,11 +129,11 @@ export default {
     }
     &__register-button{
             margin: .32rem .4rem .16rem .4rem;
-            background: #0091FF;
+            background:$btn-bgColor;
             box-shadow: 0 .04rem .08rem 0 rgba(0,145,255,0.32);
             border-radius: .04rem;
             border-radius: .04rem;
-            color: #FFF;
+            color: $bgColor;
             line-height: .48rem;
             font-size: .16rem;
             text-align: center;

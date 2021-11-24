@@ -27,6 +27,7 @@ export const useToastEffect=()=>{
 </script>
 
 <style lang="scss" scoped>
+@import '../style/viriables.scss';
     .toast{
         position: fixed;
         left:50%;
@@ -35,6 +36,6 @@ export const useToastEffect=()=>{
         background:rgba(0,0,0, .35);
         padding: .1rem;
         border-radius:.05rem;
-        color:#fff;
+        color:$bgColor;
     }
 </style>
