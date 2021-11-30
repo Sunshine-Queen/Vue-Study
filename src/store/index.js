@@ -6,15 +6,15 @@ export default createStore({
             // shopId: {
             //   shopName:'沃尔玛',
             //   productList:{
-            //   productId: {
-            //     _id: '1',
-            //     name: '番茄250g/份',
-            //     imgUrl: 'http://www.dell-lee.com/imgs/vue3/tomato.png',
-            //     sales: 10,
-            //     price: 33.6,
-            //     oldPrice: 39.6,
-            //     count: 2
-            //   },
+                //   productId: {
+                //     _id: '1',
+                //     name: '番茄250g/份',
+                //     imgUrl: 'http://www.dell-lee.com/imgs/vue3/tomato.png',
+                //     sales: 10,
+                //     price: 33.6,
+                //     oldPrice: 39.6,
+                //     count: 2
+                //   },
             //} 
             // },
         }
@@ -39,6 +39,14 @@ export default createStore({
             const { shopId, productId } = payload
             const product = state.cartList[shopId][productId]
             product.check = !product.check
+        },
+        changeShopName(state, payload){
+            const {shopId,shopName}=payload
+            const shopInfo=state.cartList[shopId]||{
+                shopName:'',productList:{}
+            }
+            shopInfo.shopName=shopName
+            state.cartList[shopId]=shopInfo
         },
         cleanCartProducts(state, payload) {
             const { shopId } = payload
