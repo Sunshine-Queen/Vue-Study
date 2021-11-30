@@ -5,6 +5,7 @@ export default createStore({
         cartList: {
             // shopId: {
             //   shopName:'沃尔玛',
+            //   productList:{
             //   productId: {
             //     _id: '1',
             //     name: '番茄250g/份',
@@ -14,6 +15,7 @@ export default createStore({
             //     oldPrice: 39.6,
             //     count: 2
             //   },
+            //} 
             // },
         }
     },
