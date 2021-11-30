@@ -28,12 +28,12 @@
                 <div class="product__number">
                     <span 
                         class="product__number__minus"
-                        @click="()=>{changeCartItem(shopId,item._id,item,-1)}"
+                        @click="()=>{changeCartItem(shopId,item._id,item,-1,shopName)}"
                         >－</span>
                     {{cartList?.[shopId]?.productList?.[item._id]?.count||0}}
                     <span 
                         class="product__number__plus"
-                        @click="()=>{changeCartItem(shopId,item._id,item,1)}"
+                        @click="()=>{changeCartItem(shopId,item._id,item,1,shopName)}"
                         >＋</span>
                 </div>
             </div>  
@@ -77,6 +77,7 @@ const useCurrentListEffect=(currentTab,shopId)=>{
 }
 export default {
     name:'Content',
+    props:['shopName'],
     setup(){
     const route=useRoute()
     const store=useStore()
@@ -89,9 +90,9 @@ export default {
             shopId,shopName
         })
     }
-    const changeCartItem=(shopId,productId,item,num)=>{
+    const changeCartItem=(shopId,productId,item,num,shopName)=>{
         changeCartItemInfo(shopId,productId,item,num)
-        //changeShopName(shopId,shopName)
+        changeShopName(shopId,shopName)
     }
     return{
         categories,currentTab,handleTabClick,changeCartItem,
