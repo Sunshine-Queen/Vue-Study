@@ -1,4 +1,5 @@
-import { createStore } from 'vuex'
+//import { createStore } from 'vuex'
+import Vuex from 'vuex'
 
 const setLocalCartList = (state) => {
     const { cartList } = state;
@@ -7,9 +8,10 @@ const setLocalCartList = (state) => {
 }
 
 const getLocalCartList = () => {
-    return JSON.parse(localStorage.cartList) || {}
+    return JSON.parse(localStorage.cartList || '{}')
 }
-export default createStore({
+
+export default Vuex.createStore({
     state: {
         //{shopId:{shopName:'',productList:{productId:{}}}}
         cartList: getLocalCartList()
@@ -56,7 +58,7 @@ export default createStore({
             const { shopId, productId } = payload
             const product = state.cartList[shopId].productList[productId]
             product.check = !product.check
-            setLocalStorage(state)
+            setLocalCartList(state)
         },
         changeShopName(state, payload) {
             const { shopId, shopName } = payload
