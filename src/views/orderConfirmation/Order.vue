@@ -8,28 +8,64 @@
             <h3 class="mask__content__title">确认要离开收银台?</h3>
             <p class="mask__content__desc">请尽快完成支付，否则将被取消</p>
             <div class="mask__content__btns">
-                <div class="mask__content__btn">取消订单</div>
-                <div class="mask__content__btn">确认支付</div>
+                <div 
+                    class="mask__content__btn mask__content__btn--first"
+                    @click="()=>handleConfirmOrder(true)"
+                    >取消订单</div>
+                <div 
+                    class="mask__content__btn mask__content__btn--last"
+                    @click="()=>handleConfirmOrder(false)"
+                    >确认支付</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import {useRoute} from 'vue-router'
+import {useRouter,useRoute} from 'vue-router'
+import {post} from '../../utils/request'
+import {useStore} from 'vuex'
 import {useCommonCartEffect} from '../../effects/cartEffects'
 export default{
     name:'Order',
     setup(){
         const route = useRoute()
-        const shopId=route.params.id
-        const {calculations } = useCommonCartEffect(shopId)
-        return {calculations}
+        const router=useRouter()
+        const store=useStore()
+
+        const shopId=parseInt(route.params.id,10)
+        const {calculations,shopName,productList } = useCommonCartEffect(shopId)
+
+        const handleConfirmOrder=async(isCanceled)=>{
+            const products = []
+            for(let i in productList.value){
+                const product =productList.value[i]
+                products.push({id:parseInt(product._id,10),num:product.count})
+            }
+            try{
+                const result =await post('/api/order',{
+                addressId:1,
+                shopId,
+                shopName:shopName.value,
+                isCanceled,
+                products
+            })
+             console.log(result)
+            if(result?.errno===0){
+                store.commit('clearCartData',shopId)
+                router.push({name:'Home'})
+            }
+            }catch(e){
+               //提示下单失败    
+                   }
+        }
+
+        return {calculations,handleConfirmOrder}
     }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../style/viriables.scss';
 .order{
     position: absolute;
@@ -88,7 +124,22 @@ export default{
             margin:.24rem .58rem ;
         }
         &__btn{
-            
+            flex:1;
+            width:.8rem;
+            line-height:.32rem;
+            border:.01rem solid #4FB0F9;
+            border-radius:.16rem;
+            font-size: .14rem;
+            &--first{
+                margin-right: .12rem;
+                border: .01rem solid #4FB0F9;
+                color: #4FB0F9;
+            }
+            &--last{
+                margin-left: .12rem;
+                background:#4FB0F9;
+                color:#FFF;
+            }
         }
     }
 }
